@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Pacifico&display=swap");
+
+
+@import "tailwindcss";
+@import '@radix-ui/themes/styles.css' layer(components);
+
+@theme {
+  --color-primary: #77af9c;
+  --color-secondary: #cbbb81;
+  --color-accent: #cbbb81;
+  --color-background: #feffee;
+  --color-textcolor: #55785e;
+  --color-white-accent: #f0eee4;
+
+  --font-cursive: pacifico;
+  --font-casual: "Caveat Brush";
+}
+
+
+.radix-themes {
+  --color-background: #feffee !important;
+  --gray-1: #feffee !important;
+  --color-panel-solid: #feffee !important;
+  background: #feffee !important;
+}
+
+body,
+#root,
+.radix-themes {
+  background-color: #feffee !important;
+}
