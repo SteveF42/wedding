@@ -5,7 +5,7 @@ interface CodeInputProps extends PropsWithChildren {
 }
 
 const CodeInput = ({ children, onCodeChange }: CodeInputProps) => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = () => {
     if (!formRef.current) return;
@@ -17,15 +17,18 @@ const CodeInput = ({ children, onCodeChange }: CodeInputProps) => {
   };
 
   return (
-    <form ref={formRef} className="flex flex-row gap-x-4" onChange={handleInputChange}>
+    <div ref={formRef} className="flex flex-row gap-x-2" onChange={handleInputChange}>
       {children}
-    </form>
+    </div>
   );
 };
 
-const Numberfield = () => {
+export const Numberfield = () => {
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
+    // Remove non-numeric characters
+    input.value = input.value.replace(/[^0-9]/g, '');
+    
     if (input.value.length > 1) {
       input.value = input.value.slice(0, 1);
     }
@@ -37,6 +40,19 @@ const Numberfield = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, arrow keys
+    if (
+      ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)
+    ) {
+      return;
+    }
+    // Prevent if not a number
+    if (!/^[0-9]$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <input
       type="text"
@@ -44,11 +60,11 @@ const Numberfield = () => {
       pattern="[0-9]"
       maxLength={1}
       onInput={handleInput}
-      className="bg-border px-2 py-4 w-12 text-center"
+      onKeyDown={handleKeyDown}
+      className="border rounded-md px-2 py-3 w-12 text-center"
     />
   );
 };
 
-CodeInput.Numberfield = Numberfield;
 
 export default CodeInput;

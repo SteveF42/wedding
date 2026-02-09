@@ -1,1 +1,1 @@
-export { default } from "./CodeInput";
+export { default, Numberfield } from "./CodeInput";
