@@ -2,14 +2,17 @@ import express, { Application, Request, Response } from "express";
 import API from "./routes";
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import morgan from "morgan"
 dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-console.log(process.env.COOKIE_SECRET);
 app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(helmet())
+app.use(morgan("dev"))
 
 app.use("/api/v1", API);
 

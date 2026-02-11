@@ -38,6 +38,7 @@ model User {
 
   // RSVP info
   rsvpStatus   RsvpStatus @default(PENDING)
+  dietaryRestrictions String?
 
   // Plus-one rules
   canBringPlusOne Boolean  @default(false)

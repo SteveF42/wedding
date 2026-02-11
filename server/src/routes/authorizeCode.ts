@@ -21,7 +21,7 @@ router.post("/auth", (req: Request, res: Response) => {
   if (code === SECRET_CODE) {
     attempts.delete(ip); // Clear attempts on success
     res.cookie("auth", "true", {
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       signed: true,
       path: "/",
       httpOnly: true,
