@@ -80,8 +80,7 @@ router.patch("/:userId/rsvp", async (req: Request, res: Response) => {
       where: { id: Number(userId) },
       data: {
         rsvpStatus,
-        dietaryRestrictions
-        // ...(dietaryRestrictions && { dietaryRestrictions }),
+        ...(dietaryRestrictions && { dietaryRestrictions }),
       },
       include: {
         plusOne: true,

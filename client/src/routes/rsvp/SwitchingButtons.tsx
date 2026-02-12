@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type SwitchingButtonsProps = {
   value: "ACCEPTED" | "DECLINED";
   onChange: (value: "ACCEPTED" | "DECLINED") => void;

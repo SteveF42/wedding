@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 import type { UserInterface } from "./rsvp.types";
 import SwitchingButtons from "./SwitchingButtons";
 
