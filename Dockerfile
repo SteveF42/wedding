@@ -19,7 +19,5 @@ ENV NODE_ENV=production
 RUN addgroup wedding && adduser -D -G wedding wedding
 USER wedding
 
-EXPOSE 3000
-
 CMD ["npm", "run", "start"]
 
