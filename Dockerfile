@@ -5,9 +5,8 @@ WORKDIR /build
 COPY . .
 
 RUN cd server && npm install
-RUN cd server/src \
-  && npx prisma generate \
-  && npm run build
+RUN cd server && npx prisma generate
+RUN cd server && npm run build
 RUN cd client && npm install && npm run build
 
 FROM node:22-alpine
