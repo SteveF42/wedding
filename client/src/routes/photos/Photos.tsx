@@ -2,8 +2,8 @@
 
 const Photos = () => {
   return (
-    <div>
-      <h1>If any photos are taken feel free to upload them here</h1>
+    <div className="flex justify-center">
+      <h1>Check back to upload photos during the reception!</h1>
     </div>
   )
 }

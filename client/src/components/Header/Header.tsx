@@ -11,11 +11,11 @@ const Header = () => {
         </h1>
         <NavBar>
           <NavItem link="/">Home</NavItem>
-          <NavItem link="#">Wedding Party</NavItem>
-          <NavItem link="#">Schedule</NavItem>
+          <NavItem link="/party">Wedding Party</NavItem>
+          <NavItem link="/schedule">Schedule</NavItem>
           <NavItem link="/photos">Photos</NavItem>
-          <NavItem link="#">Registry</NavItem>
-          <NavItem link="#">FAQs</NavItem>
+          <NavItem link="/registry">Registry</NavItem>
+          <NavItem link="/faq">FAQs</NavItem>
           <NavItem link="/rsvp">RSVP</NavItem>
         </NavBar>
       </div>
