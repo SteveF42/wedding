@@ -9,19 +9,19 @@ router.post("/auth", (req: Request, res: Response) => {
   const SECRET_CODE = process.env.SECRET_CODE;
   const { code } = req.body;
 
-  const ip = req.ip || req.socket.remoteAddress || "unknown";
+  const deviceID = req.signedCookies.deviceId;
   const MAX_ATTEMPTS = 4;
   const LOCK_DURATION = 20 * 60 * 1000; // 20 minutes
 
   // Check if IP is locked
-  const record = attempts.get(ip);
+  const record = attempts.get(deviceID);
   if (record?.lockUntil && Date.now() < record.lockUntil) {
     return res.status(429).json({ error: "Too many attempts. Please try again later :)" });
   }
   if (code === SECRET_CODE) {
-    attempts.delete(ip); // Clear attempts on success
+    attempts.delete(deviceID); // Clear attempts on success
     res.cookie("auth", "true", {
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
       signed: true,
       path: "/",
       httpOnly: true,
@@ -35,11 +35,11 @@ router.post("/auth", (req: Request, res: Response) => {
   const newAttempts = currentAttempts + 1;
 
   if (newAttempts >= MAX_ATTEMPTS) {
-    attempts.set(ip, { count: newAttempts, lockUntil: Date.now() + LOCK_DURATION });
+    attempts.set(deviceID, { count: newAttempts, lockUntil: Date.now() + LOCK_DURATION });
     return res.status(429).json({ error: "Too many attempts. Locked for 20 minutes." });
   }
 
-  attempts.set(ip, { count: newAttempts });
+  attempts.set(deviceID, { count: newAttempts });
   return res.status(401).json({ error: `Incorrect code, Attemps remaining: ${MAX_ATTEMPTS - newAttempts}` });
 });
 

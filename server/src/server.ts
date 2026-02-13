@@ -7,6 +7,7 @@ import morgan from "morgan";
 import compression from "compression";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import deviceIdMiddleware from "./middleware/tagDevice";
 dotenv.config();
 
 const app: Application = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(helmet());
 app.use(morgan("dev"));
+app.use(deviceIdMiddleware)
 
 if (isDevelopment) {
   // Development-specific Middlewares
