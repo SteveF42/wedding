@@ -9,60 +9,65 @@ router.get("/rsvp", async (req: Request, res: Response) => {
     return res.sendStatus(404);
   }
 
-  const [firstname, lastname] = String(user).split(" ");
+  try {
+    const [firstname, lastname] = String(user).split(" ");
 
-  const matchedUser = await prisma.user.findFirst({
-    where: {
-      AND: [
-        {
-          firstName: {
-            equals: String(firstname),
-            mode: "insensitive",
+    const matchedUser = await prisma.user.findFirst({
+      where: {
+        AND: [
+          {
+            firstName: {
+              equals: String(firstname),
+              mode: "insensitive",
+            },
           },
-        },
-        {
-          lastName: {
-            equals: String(lastname),
-            mode: "insensitive",
+          {
+            lastName: {
+              equals: String(lastname),
+              mode: "insensitive",
+            },
           },
-        },
-      ],
-    },
-    include: {
-      plusOne: true,
-    },
-  });
-
-  console.log(matchedUser);
-
-  if (!matchedUser) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  if (!matchedUser.groupId) {
-    return res.status(200).json({
-      groupId: null,
-      members: [matchedUser],
+        ],
+      },
+      include: {
+        plusOne: true,
+      },
     });
-  }
 
-  // 3️⃣ Otherwise return the whole group
-  const groupMembers = await prisma.user.findMany({
-    where: {
+    console.log(matchedUser);
+
+    if (!matchedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!matchedUser.groupId) {
+      return res.status(200).json({
+        groupId: null,
+        members: [matchedUser],
+      });
+    }
+
+    // 3️⃣ Otherwise return the whole group
+    const groupMembers = await prisma.user.findMany({
+      where: {
+        groupId: matchedUser.groupId,
+      },
+      include: {
+        plusOne: true,
+      },
+      orderBy: {
+        lastName: "asc",
+      },
+    });
+
+    return res.status(200).json({
       groupId: matchedUser.groupId,
-    },
-    include: {
-      plusOne: true,
-    },
-    orderBy: {
-      lastName: "asc",
-    },
-  });
-
-  return res.status(200).json({
-    groupId: matchedUser.groupId,
-    members: groupMembers,
-  });
+      members: groupMembers,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 router.patch("/:userId/rsvp", async (req: Request, res: Response) => {
