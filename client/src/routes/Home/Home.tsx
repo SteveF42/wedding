@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <div className="relative w-full">
       <div id="main-img" className="w-full">
-        <img src={isPoop ? "./poop.jpg" : "./Home.jpg"} className="aspect-video object-cover w-full max-h-[700px] grayscale-75" />
+        <img src={isPoop ? "./poop.jpg" : "./Home.jpg"} className="aspect-video object-cover w-full max-h-[620px] grayscale-75" />
       </div>
 
       <div id="footer" className="mx-auto flex flex-col sm:text-xl text-center w-full mt-4">
