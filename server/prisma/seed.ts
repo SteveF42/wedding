@@ -53,58 +53,60 @@ const families: group[] = [
   {
     groupName: "Espinosa Family",
     people: ["Chris Espinosa", "Denice Hinojos", "Ryan Hinojos", "Jacob Hinojos", "Emma Hinojos"],
-    id: 0,
+    id: 1,
   },
   {
     groupName: "Stadick Family",
     people: ["Emily Stadick", "Trent Stadick", "Tayler Stadick", "Brody Stadick", "Cathy Stadick", "Micheal Cuomo"],
-    id: 1,
+    id: 2,
   },
   {
     groupName: "Flores Family",
     people: ["Nelly Flores", "Waldo Flores", "Stanley Flores", "Sonya Flores", "Micheal Flores "],
-    id: 2,
+    id: 3,
   },
   {
     groupName: "Gonzalez Family",
     people: ["Bryan Gonzales", "Silvia Gonzales", "Ivan Gonzales"],
-    id: 3,
+    id: 4,
   },
   {
     groupName: "Alfaro Family",
     people: ["Carlos Alfaro", "Carlitos Alfaro", "Vanessa Alfaro", "Mia Alfaro"],
-    id: 4,
+    id: 5,
   },
   {
     groupName: "Mugabero Family",
     people: ["Yasse Mugabero", "Kevin Mugabero", "Kayden Mugabero", "Kevin Mugabero"],
-    id: 5,
+    id: 6,
   },
   {
     groupName: "Alverez Family",
     people: ["Alberto Arevalo", "Tori Arevalo", "Caroline Arevalo", "Adelina Arevalo", "Ayla Arevalo"],
-    id: 6,
+    id: 7,
   },
   {
     groupName: "Jimenez Family",
     people: ["Gisselle Jimenez", "Pedro Jimenez", "William Jimenez", "Adeline Jimenez"],
-    id: 7,
+    id: 8,
   },
   {
     groupName: "Stadick Family 2",
     people: ["Karen Stadick", "Ty Stadick", "Anine Stadick"],
-    id: 8,
+    id: 9,
   },
 ];
 
-async function createUser(user: string) {
+async function createUser(user: string, id: number) {
   const [guest, booleanVal] = user.split("|");
-  let canBringPlusOne = booleanVal === "true";
+  const canBringPlusOne = booleanVal === "true";
 
-  const [firstName, lastName] = guest.split(" ");
-  const createdUser = await prisma.user.upsert({
+  const guestParts = guest.split(" ");
+  const firstName = guestParts.shift() || "";
+  const lastName = guestParts.join(" ") || "";
+  await prisma.user.upsert({
     where: {
-      id: 1,
+      id,
     },
     create: {
       firstName,
@@ -113,11 +115,9 @@ async function createUser(user: string) {
     },
     update: {},
   });
-
-  console.log(createdUser);
 }
 
-async function createGroup(group: group) {
+async function createGroup(group: group, id: number) {
   const newGroup = await prisma.group.upsert({
     where: {
       id: group.id,
@@ -125,34 +125,47 @@ async function createGroup(group: group) {
     create: { name: group.groupName },
     update: {},
   });
-
-  group.people.forEach(async (person) => {
-    const [firstName, lastName] = person.split(" ");
-    await prisma.user.create({
-      data: {
+  const groupPromises = group.people.map(async (person, idx) => {
+    const parts = person.split(" ");
+    const firstName = parts.shift() || "";
+    const lastName = parts.join(" ") || "";
+    const personId = id + idx;
+    return prisma.user.upsert({
+      where: {
+        id: personId,
+      },
+      create: {
         firstName,
         lastName,
         canBringPlusOne: false,
         groupId: newGroup.id,
       },
+      update: {},
     });
   });
+
+  await Promise.all(groupPromises);
 }
 
 async function main() {
-  const userPromise = individuals.map(async (ind) => createUser(ind));
-  await Promise.all(userPromise);
+  for (let i = 0; i < individuals.length; i++) {
+    const element = individuals[i];
+    await createUser(element, i + 1);
+  }
 
-  const famPromise = families.map(async (fam) => createGroup(fam));
-
-  await Promise.all(userPromise);
+  let currentId = individuals.length + 1;
+  for (let i = 0; i < families.length; i++) {
+    const group = families[i];
+    await createGroup(group, currentId);
+    currentId += group.people.length;
+  }
 }
 main()
   .then(async (res) => {
-    console.log(res);
-    prisma.$disconnect();
+    console.log("END", res);
+    await prisma.$disconnect();
   })
   .catch(async (err) => {
     console.log(err);
-    prisma.$disconnect();
+    await prisma.$disconnect();
   });
