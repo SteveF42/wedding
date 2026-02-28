@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     emptyOutDir: true,
-    outDir: "../server/dist/client"
+    outDir: "../server/dist/client",
+    assetsInlineLimit: 0
   },
   server: {
     proxy: {
