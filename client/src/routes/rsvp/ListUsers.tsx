@@ -24,7 +24,8 @@ const ListUsers = ({ users, setSubmitted }: ListUserProps) => {
       plusOneName: user.plusOne?.name || "",
     })),
   );
-  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
+  
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(users?.[0].dietaryRestrictions || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateUserRsvp = (userId: number, status: "ACCEPTED" | "DECLINED") => {
@@ -103,10 +104,11 @@ const ListUsers = ({ users, setSubmitted }: ListUserProps) => {
       <div>
         <h1>Please state your dietary restrictions.</h1>
         <textarea
-          className="border border-black w-full"
+          className="border border-black w-full rounded-md resize-none p-2"
+          rows={4}
           value={dietaryRestrictions}
           onChange={(e) => setDietaryRestrictions(e.target.value)}></textarea>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <button
             type="submit"
             disabled={isSubmitting}

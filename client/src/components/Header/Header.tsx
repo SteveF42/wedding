@@ -11,7 +11,7 @@ const Header = () => {
         </h1>
         <NavBar>
           <NavItem link="/">Home</NavItem>
-          <NavItem link="/party">Wedding Party</NavItem>
+          {/* <NavItem link="/party">Wedding Party</NavItem> */}
           <NavItem link="/schedule">Schedule</NavItem>
           <NavItem link="/photos">Photos</NavItem>
           <NavItem link="/registry">Registry</NavItem>

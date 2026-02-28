@@ -9,7 +9,7 @@ function SwitchingButtons({ value, onChange }: SwitchingButtonsProps) {
       <button
         type="button"
         onClick={() => onChange("ACCEPTED")}
-        className={`px-4 py-2 rounded transition-colors flex-1 ${
+        className={`hover:cursor-pointer px-4 py-2 rounded transition-colors flex-1 ${
           value === "ACCEPTED" ? "bg-black text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
         }`}>
       WILL ATTEND
@@ -17,7 +17,7 @@ function SwitchingButtons({ value, onChange }: SwitchingButtonsProps) {
       <button
         type="button"
         onClick={() => onChange("DECLINED")}
-        className={`px-4 py-2 rounded transition-colors flex-1 ${
+        className={`hover:cursor-pointer px-4 py-2 rounded transition-colors flex-1 ${
           value === "DECLINED" ? "bg-black text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
         }`}>
       WILL NOT ATTEND
