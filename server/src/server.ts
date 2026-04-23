@@ -19,7 +19,6 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(helmet());
-app.use(morgan("dev"));
 app.use(deviceIdMiddleware)
 
 if (isDevelopment) {
