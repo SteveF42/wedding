@@ -3,7 +3,7 @@ import { useState, type PropsWithChildren } from "react";
 const NavBar = ({ children }: PropsWithChildren) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
-    <nav className="relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10 w-full z-50">
+    <nav className="relative w-full z-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-center">
           <div className="fixed top-0 left-0 z-10 flex items-center sm:hidden">

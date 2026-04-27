@@ -15,11 +15,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PORT = process.env.PORT || 3001;
 const isDevelopment = process.env.NODE_ENV !== "production";
+const uploadsDirectory = path.resolve(process.cwd(), "uploads");
+
+if (!path.isAbsolute(uploadsDirectory)) {
+  throw new Error("Unable to resolve uploads directory");
+}
 
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(helmet());
 app.use(deviceIdMiddleware)
+app.use("/uploads", express.static(uploadsDirectory));
 
 if (isDevelopment) {
   // Development-specific Middlewares

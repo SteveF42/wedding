@@ -8,11 +8,16 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     outDir: "../server/dist/client",
-    assetsInlineLimit: 0
+    assetsInlineLimit: 0,
   },
   server: {
     proxy: {
       "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/uploads": {
         target: "http://localhost:3000",
         changeOrigin: true,
         secure: false,

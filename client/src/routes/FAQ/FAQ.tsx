@@ -38,19 +38,29 @@ const FAQ = () => {
     },
   ];
   return (
-    <div className="max-w-3xl mx-auto space-y-4">
-      <div className="w-full text-center">
-        <h1 className="text-2xl ">FAQs</h1>
-        <hr />
+    <main className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+      />
+
+      <div className="max-w-3xl mx-auto space-y-4">
+        <div className="w-full text-center">
+          <p className="inline-flex rounded-full border border-secondary/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-textcolor backdrop-blur">
+            Helpful Details
+          </p>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-textcolor sm:text-4xl">FAQs</h1>
+          <hr className="mt-3 border-secondary/40" />
+        </div>
+        <div className="flex flex-col w-full max-w-4xl px-8 gap-y-2 rounded-2xl border border-primary/20 bg-white/75 py-3 shadow-[0_20px_50px_-34px_rgba(85,120,94,0.45)] backdrop-blur-sm">
+          {questions.map((obj, i) => (
+            <QuestionCard key={i} question={obj.question} answer={obj.answer}>
+              {obj?.children}
+            </QuestionCard>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col w-full max-w-4xl px-8 gap-y-2">
-        {questions.map((obj, i) => (
-          <QuestionCard key={i} question={obj.question} answer={obj.answer}>
-            {obj?.children}
-          </QuestionCard>
-        ))}
-      </div>
-    </div>
+    </main>
   );
 };
 
