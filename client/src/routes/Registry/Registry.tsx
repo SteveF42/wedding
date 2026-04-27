@@ -1,11 +1,3 @@
-import { useEffect, useState } from "react";
-
-type LinkPreview = {
-  title: string | null;
-  description: string | null;
-  image: string | null;
-  url: string;
-};
 
 const REGISTRY_URL =
   "https://www.myregistry.com/wedding-registry/ysabel-espinosa-and-steve-flores-victorville-ca/5360734/giftlist?publicUrlName=ysasteve-registry";
