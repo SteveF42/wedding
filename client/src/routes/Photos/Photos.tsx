@@ -12,6 +12,7 @@ const formatFileSize = (bytes: number) => {
 };
 
 const Photos = () => {
+  const isTodayWedding = useMemo(() => new Date() >= new Date("2026-08-8"), []);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -66,9 +67,7 @@ const Photos = () => {
         (newFile) =>
           !previousFiles.some(
             (existingFile) =>
-              existingFile.name === newFile.name &&
-              existingFile.size === newFile.size &&
-              existingFile.lastModified === newFile.lastModified,
+              existingFile.name === newFile.name && existingFile.size === newFile.size && existingFile.lastModified === newFile.lastModified,
           ),
       );
 
@@ -140,10 +139,7 @@ const Photos = () => {
 
   return (
     <main className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 "
-      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 " />
 
       <section className="mx-auto w-full max-w-5xl">
         <header className="mx-auto max-w-2xl text-center">
@@ -186,8 +182,7 @@ const Photos = () => {
                 isDragOver
                   ? "border-primary bg-primary/8 shadow-[0_0_0_4px_rgba(119,175,156,0.14)]"
                   : "border-secondary/55 bg-background/75 hover:border-primary/70 hover:bg-primary/6",
-              ].join(" ")}
-            >
+              ].join(" ")}>
               <input ref={inputRef} type="file" accept="image/*" multiple className="hidden" onChange={onFileInputChange} />
 
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white-accent text-primary shadow-sm">
@@ -206,9 +201,7 @@ const Photos = () => {
                     <p className="truncate text-sm font-semibold text-textcolor">
                       {selectedFiles.length} photo{selectedFiles.length === 1 ? "" : "s"} selected
                     </p>
-                    <p className="mt-1 text-xs text-textcolor/70">
-                      {formatFileSize(selectedFiles.reduce((sum, file) => sum + file.size, 0))} total
-                    </p>
+                    <p className="mt-1 text-xs text-textcolor/70">{formatFileSize(selectedFiles.reduce((sum, file) => sum + file.size, 0))} total</p>
                   </div>
                   <button
                     type="button"
@@ -219,8 +212,7 @@ const Photos = () => {
                       if (inputRef.current) {
                         inputRef.current.value = "";
                       }
-                    }}
-                  >
+                    }}>
                     Clear all
                   </button>
                 </div>
@@ -232,9 +224,7 @@ const Photos = () => {
                     </div>
                   ))}
                 </div>
-                {previewItems.length > 6 ? (
-                  <p className="mt-2 text-xs text-textcolor/70">+{previewItems.length - 6} more selected</p>
-                ) : null}
+                {previewItems.length > 6 ? <p className="mt-2 text-xs text-textcolor/70">+{previewItems.length - 6} more selected</p> : null}
               </div>
             ) : null}
 
@@ -242,22 +232,22 @@ const Photos = () => {
               <button
                 type="button"
                 onClick={uploadPhoto}
-                disabled={!selectedFiles.length || isUploading}
-                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50"
-              >
+                disabled={!selectedFiles.length || isUploading || !isTodayWedding}
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50">
                 {isUploading ? "Uploading..." : `Upload ${selectedFiles.length || ""} Photo${selectedFiles.length === 1 ? "" : "s"}`}
               </button>
               <p className="text-xs text-textcolor/70">Your photos are sent securely to our server for permanent storage.</p>
             </div>
-
+            {!isTodayWedding && (
+              <p className="mt-4 rounded-lg border px-3 py-2 text-sm text-red-700 bg-red-50 border-red-200 p-2">Today is not the wedding :(</p>
+            )}
             {statusMessage ? (
               <p
                 role="status"
                 className={[
                   "mt-4 rounded-lg border px-3 py-2 text-sm",
                   isError ? "border-red-200 bg-red-50 text-red-700" : "border-emerald-200 bg-emerald-50 text-emerald-700",
-                ].join(" ")}
-              >
+                ].join(" ")}>
                 {statusMessage}
               </p>
             ) : null}
