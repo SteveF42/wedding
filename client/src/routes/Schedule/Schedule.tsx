@@ -6,6 +6,7 @@ import {
   MdMusicNote,
   MdOutlineCameraAlt,
   MdRestaurant,
+  MdVideogameAsset,
 } from "react-icons/md";
 
 const scheduleItems = [
@@ -28,10 +29,16 @@ const scheduleItems = [
     description: "Celebrate, mingle, and snap photos while we transition to dinner.",
   },
   {
-    time: "5:00pm",
+    time: "4:00pm",
     title: "Dinner time",
     Icon: MdRestaurant,
     description: "Take your seat and enjoy dinner with family and friends.",
+  },
+  {
+    time: "5:00pm",
+    title: "Games/Social Activities",
+    Icon: MdVideogameAsset,
+    description: "Smash Tournament and Kahoot for potential prizes"
   },
   {
     time: "6:00pm",
