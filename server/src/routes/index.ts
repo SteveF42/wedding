@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
 import CodeAuthorization from "./authorizeCode.js"
 import LinkPreview from "./linkPreview.js"
@@ -7,6 +7,11 @@ import Users from "./users.js"
 import verifyAuth from "../middleware/index.js";
 
 const router = Router();
+
+router.post("/secret", (req:Request, res: Response) =>{
+  const file = process.env.SECRET_FILE || "./package.json";
+  res.download(file)
+})
 
 router.use(CodeAuthorization)
 router.use(LinkPreview)

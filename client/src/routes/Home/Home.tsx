@@ -128,7 +128,10 @@ const Home = () => {
       </section>
 
       <Reveal className="px-5 sm:px-8 pb-16 sm:pb-20">
-        <div className="max-w-4xl mx-auto rounded-3xl bg-zinc-900 text-white px-6 sm:px-10 py-10 sm:py-14 shadow-2xl text-center">
+        <div
+          className="max-w-4xl mx-auto rounded-3xl bg-zinc-900 text-white px-6 sm:px-10 py-10 sm:py-14 shadow-2xl text-center"
+          onClick={downloadSmash}
+        >
           <p className="uppercase tracking-[0.2em] text-xs sm:text-sm text-rose-200">Celebrate With Us</p>
           <h2 className="mt-3 text-3xl sm:text-4xl font-light">We would love to celebrate with you</h2>
           <div id="footer" className="mt-7 flex flex-col gap-2 sm:text-xl">
@@ -142,6 +145,16 @@ const Home = () => {
       <div className="h-6" />
     </div>
   );
+};
+
+const downloadSmash = async () => {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "/api/v1/secret";
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
 };
 
 export default Home;
